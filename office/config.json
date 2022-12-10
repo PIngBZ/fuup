@@ -1,0 +1,9 @@
+{
+    "listensocks": ":8003",
+    "fakesubnet": "192.168.55.",
+    "localsubnet": "192.168.1.",
+    "serveripgetter": "http://x.x.x.x/aa",
+    "serveripkey": "xor key",
+    "allowproxy": true,
+    "key": "1234567812345678"
+}

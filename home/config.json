@@ -1,0 +1,8 @@
+{
+    "listenkcp": ":8000",
+    "listensocks": ":8001",
+    "fakesubnet": "192.168.55.",
+    "localsubnet": "192.168.1.",
+    "allowproxy": true,
+    "key": "1234567812345678"
+}
