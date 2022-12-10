@@ -4,6 +4,7 @@
     "localsubnet": "192.168.1.",
     "serveripgetter": "http://x.x.x.x/aa",
     "serveripkey": "xor key",
+    "serverport": 12345,
     "allowproxy": true,
     "key": "1234567812345678"
 }

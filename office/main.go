@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"math/rand"
@@ -50,7 +51,7 @@ func main() {
 		crypt, err := kcp.NewAESBlockCrypt([]byte(config.Key)[:16])
 		fuup.CheckError(err)
 
-		dst := addr.Load().(string)
+		dst := addr.Load().(string) + fmt.Sprintf(":%d", config.ServerPort)
 		c, err := kcp.DialWithOptions(dst, crypt, 0, 0)
 		if err != nil {
 			log.Printf("Dial KCP: %s %+v\n", dst, err)
@@ -58,7 +59,7 @@ func main() {
 			continue
 		}
 
-		log.Printf("Dail KCP: %s\n", dst)
+		log.Printf("Dail KCP success: %s\n", dst)
 
 		f.HandleKCP(c)
 	}
@@ -66,6 +67,7 @@ func main() {
 
 func daemon(f *fuup.Fuup, addr *atomic.Value) {
 	for {
+		log.Println("Request server IP")
 		resp, err := http.Get(config.ServerIpGetter)
 		if err == nil {
 			data, err := io.ReadAll(resp.Body)
@@ -74,6 +76,7 @@ func daemon(f *fuup.Fuup, addr *atomic.Value) {
 			if err == nil && len(data) > 6 && len(data) < 16 {
 				fuup.Xor(data, []byte(config.ServerIpKey))
 				if d := addr.Load(); d == nil || d.(string) != string(data) {
+					log.Printf("Change server IP to %s\n", string(data))
 					addr.Store(string(data))
 					f.Close()
 				}

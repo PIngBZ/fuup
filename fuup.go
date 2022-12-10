@@ -75,19 +75,20 @@ func (h *Fuup) HandleKCP(conn *kcp.UDPSession) {
 
 func (h *Fuup) Close() {
 	log.Println("Fuup Close")
-	if old := h.socks5.Swap((*socks5.Server)(nil)); old != nil {
+
+	if old := h.socks5.Swap((*socks5.Server)(nil)); old != nil && old.(*socks5.Server) != nil {
 		old.(*socks5.Server).Close()
 	}
 
-	if old := h.smux.Swap((*smux.Session)(nil)); old != nil {
+	if old := h.smux.Swap((*smux.Session)(nil)); old != nil && old.(*smux.Session) != nil {
 		old.(*smux.Session).Close()
 	}
 
-	if old := h.kcp.Swap((*kcp.UDPSession)(nil)); old != nil {
+	if old := h.kcp.Swap((*kcp.UDPSession)(nil)); old != nil && old.(*kcp.UDPSession) != nil {
 		old.(*kcp.UDPSession).Close()
 	}
 
-	if old := h.die.Swap((*chan struct{})(nil)); old != nil {
+	if old := h.die.Swap((*chan struct{})(nil)); old != nil && old.(*chan struct{}) != nil {
 		close(*old.(*chan struct{}))
 	}
 }

@@ -11,6 +11,7 @@ type Config struct {
 	LocalSubnet    string `json:"localsubnet"`
 	ServerIpGetter string `json:"serveripgetter"`
 	ServerIpKey    string `json:"serveripkey"`
+	ServerPort     int    `json:"serverport"`
 	AllowProxy     bool   `json:"allowproxy"`
 	Key            string `json:"key"`
 }
