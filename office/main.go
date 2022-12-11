@@ -64,6 +64,8 @@ func main() {
 		log.Printf("Dail KCP success: %s\n", dst)
 
 		f.HandleKCP(c)
+
+		time.Sleep(time.Second * 30)
 	}
 }
 
