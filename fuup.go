@@ -51,7 +51,7 @@ func (h *Fuup) HandleKCP(conn *kcp.UDPSession) {
 	conn.SetStreamMode(true)
 	conn.SetWriteDelay(false)
 	conn.SetNoDelay(1, 5, 2, 1)
-	conn.SetWindowSize(1024, 1024)
+	conn.SetWindowSize(10240, 10240)
 	conn.SetMtu(470)
 	conn.SetACKNoDelay(true)
 

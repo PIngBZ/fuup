@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha1"
 	"errors"
 	"flag"
 	"fmt"
@@ -13,6 +14,7 @@ import (
 
 	"github.com/PIngBZ/fuup"
 	"github.com/xtaci/kcp-go"
+	"golang.org/x/crypto/pbkdf2"
 )
 
 var (
@@ -46,11 +48,11 @@ func main() {
 	for addr.Load() == nil {
 		time.Sleep(time.Second)
 	}
+	pass := pbkdf2.Key([]byte(config.Key), []byte(fuup.SALT), 4096, 32, sha1.New)
+	crypt, err := kcp.NewAESBlockCrypt(pass[:16])
+	fuup.CheckError(err)
 
 	for {
-		crypt, err := kcp.NewAESBlockCrypt([]byte(config.Key)[:16])
-		fuup.CheckError(err)
-
 		dst := addr.Load().(string) + fmt.Sprintf(":%d", config.ServerPort)
 		c, err := kcp.DialWithOptions(dst, crypt, 0, 0)
 		if err != nil {

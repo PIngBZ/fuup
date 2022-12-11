@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha1"
 	"errors"
 	"flag"
 	"log"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/PIngBZ/fuup"
 	"github.com/xtaci/kcp-go"
+	"golang.org/x/crypto/pbkdf2"
 )
 
 var (
@@ -35,7 +37,8 @@ func init() {
 func main() {
 	f := fuup.NewFuup(true, config.AllowProxy, config.ListenSocks, config.FakeSubnet, config.LocalSubnet)
 
-	crypt, err := kcp.NewAESBlockCrypt([]byte(config.Key)[:16])
+	pass := pbkdf2.Key([]byte(config.Key), []byte(fuup.SALT), 4096, 32, sha1.New)
+	crypt, err := kcp.NewAESBlockCrypt(pass[:16])
 	fuup.CheckError(err)
 
 	listener, err := kcp.ListenWithOptions(config.ListenKcp, crypt, 0, 0)

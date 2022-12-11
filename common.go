@@ -80,8 +80,8 @@ func SmuxConfig() *smux.Config {
 	smuxConfig.Version = 1
 	smuxConfig.MaxFrameSize = 1024 * 32
 	smuxConfig.MaxReceiveBuffer = 1024 * 1024 * 8
-	smuxConfig.KeepAliveInterval = time.Second * 10
-	smuxConfig.KeepAliveTimeout = time.Hour * 24 * 30
+	smuxConfig.KeepAliveInterval = time.Second * 5
+	smuxConfig.KeepAliveTimeout = time.Second * 10
 
 	err := smux.VerifyConfig(smuxConfig)
 	CheckError(err)
