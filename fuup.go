@@ -8,8 +8,8 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/PIngBZ/kcp-go/v5"
 	"github.com/PIngBZ/socks5"
-	"github.com/xtaci/kcp-go"
 	"github.com/xtaci/smux"
 )
 
@@ -50,7 +50,7 @@ func (h *Fuup) HandleKCP(conn *kcp.UDPSession) {
 
 	conn.SetStreamMode(true)
 	conn.SetWriteDelay(false)
-	conn.SetNoDelay(1, 5, 2, 1)
+	conn.SetNoDelay(1, 5, 10, 1)
 	conn.SetWindowSize(10240, 10240)
 	conn.SetMtu(470)
 	conn.SetACKNoDelay(true)

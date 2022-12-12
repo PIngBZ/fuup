@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/PIngBZ/fuup"
-	"github.com/xtaci/kcp-go"
+	"github.com/PIngBZ/kcp-go/v5"
 	"golang.org/x/crypto/pbkdf2"
 )
 
@@ -54,7 +54,7 @@ func main() {
 
 	for {
 		dst := addr.Load().(string) + fmt.Sprintf(":%d", config.ServerPort)
-		c, err := kcp.DialWithOptions(dst, crypt, 0, 0)
+		c, err := kcp.DialWithOptions(dst, crypt, 10, 3, true, fuup.KcpConfig())
 		if err != nil {
 			log.Printf("Dial KCP: %s %+v\n", dst, err)
 			time.Sleep(time.Second * 10)

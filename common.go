@@ -75,22 +75,6 @@ func OpenLog() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-func SmuxConfig() *smux.Config {
-	smuxConfig := smux.DefaultConfig()
-	smuxConfig.Version = 1
-	smuxConfig.MaxFrameSize = 1024 * 32
-	smuxConfig.MaxReceiveBuffer = 1024 * 1024 * 32
-	smuxConfig.MaxStreamBuffer = 1024 * 1024 * 4
-	smuxConfig.KeepAliveDisabled = false
-	smuxConfig.KeepAliveInterval = time.Second * 3
-	smuxConfig.KeepAliveTimeout = time.Second * 15
-
-	err := smux.VerifyConfig(smuxConfig)
-	CheckError(err)
-
-	return smuxConfig
-}
-
 var _copy_buf_pool = NewPool(1024 * 1024)
 
 func Transfer(p1, p2 io.ReadWriteCloser) {

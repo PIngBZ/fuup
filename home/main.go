@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/PIngBZ/fuup"
-	"github.com/xtaci/kcp-go"
+	"github.com/PIngBZ/kcp-go/v5"
 	"golang.org/x/crypto/pbkdf2"
 )
 
@@ -41,7 +41,7 @@ func main() {
 	crypt, err := kcp.NewAESBlockCrypt(pass[:16])
 	fuup.CheckError(err)
 
-	listener, err := kcp.ListenWithOptions(config.ListenKcp, crypt, 0, 0)
+	listener, err := kcp.ListenWithOptions(config.ListenKcp, crypt, 10, 3, true, fuup.KcpConfig())
 	fuup.CheckError(err)
 
 	for {
